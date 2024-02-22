@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 //Route::get('/', function () {
 //    return view('welcome');
 //});
+Route::middleware(["auth"])->group(function () {
+    Route::get("files/download/{research}", [FileController::class, "download"])->name("files.download");
+});
+

@@ -33,6 +33,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use PHPUnit\Metadata\Group;
 use function Laravel\Prompts\select;
+use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isNull;
 
 class ResearchResource extends Resource
@@ -67,9 +68,9 @@ class ResearchResource extends Resource
                                 ->string(),
                             FileUpload::make('research.files')
                                 ->label('Research Documentation')
+
                                 ->multiple()
                                 ->preserveFilenames()
-                                ->directory('research/files') // Store files directly in the intended directory
                                 ->openable()
                                 ->downloadable()
                                 ->disk('public') // Ensure you're specifying the correct disk
@@ -193,15 +194,13 @@ class ResearchResource extends Resource
                 TextColumn::make('student.name')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('administer.name')
-                    ->searchable()
-                    ->sortable(),
                 TextColumn::make('subject.name')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('college.name')
                     ->searchable()
                     ->sortable(),
+
 
             ])
             ->filters([
@@ -216,6 +215,11 @@ class ResearchResource extends Resource
 
                 DeleteAction::make('delete')
                     ->button(),
+                Tables\Actions\Action::make("files.download")
+                    ->url(fn (Research $record) => route("files.download", $record))
+                    ->button()
+                    ->color("info")
+                    ->hidden(fn (Research $record) => $record->status=="draft"||$record->status=="under_review")
                 ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

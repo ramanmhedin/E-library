@@ -67,7 +67,6 @@ class UserResource extends Resource
 
     public static function form(Form $form): Form
     {
-        $collegeId = fn($get) => $get('role_id');
         return $form
             ->schema(components: [
                 Section::make("Profile")
