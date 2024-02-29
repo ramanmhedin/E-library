@@ -122,10 +122,9 @@ class UserResource extends Resource
                         ->schema([
                             Group::make(
                                 [
-                                    Select::make("collage_id")
-                                        ->label("collage")
+                                    Select::make("college_id")
+                                        ->label("college")
                                         ->options(College::all()->pluck("name", "id"))
-//                            ->visible(fn ($get) => $get('role_id')==4?true:false)
                                         ->reactive()
                                         ->searchable(),
 
@@ -134,7 +133,7 @@ class UserResource extends Resource
                                         ->options(fn(Get $get): Collection => Department::query()
                                             ->when(isNull($get('college_id')), function ($query) use ($get) {
                                                 return $query->
-                                                where("college_id", $get('collage_id'));
+                                                where("college_id", $get('college_id'));
                                             })
                                             ->pluck("name", "id")
                                         )
