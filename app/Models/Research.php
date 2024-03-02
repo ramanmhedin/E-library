@@ -24,6 +24,7 @@ class Research extends Model
         "student_id",
         "teacher_id",
         "administer_id",
+        "impact_factor",
         "subject_id",
         "college_id",
         "plagiarism_percentage"

@@ -14,10 +14,10 @@ class RolesTableSeeder extends Seeder
     public function run(): void
     {
         $roles = [
-            ['name' => 'admin', 'description' => 'Administrator Role'],
-            ['name' => 'student', 'description' => 'Regular User Role'],
-            ['name' => 'teacher', 'description' => 'Regular User Role'],
-            ['name' => 'administer', 'description' => 'Regular User Role'],
+            ['name' => 'Admin', 'description' => 'Administrator Role'],
+            ['name' => 'Student', 'description' => 'Regular User Role'],
+            ['name' => 'Teacher', 'description' => 'Regular User Role'],
+            ['name' => 'President', 'description' => 'Regular User Role'],
             // Add more roles as needed
         ];
 

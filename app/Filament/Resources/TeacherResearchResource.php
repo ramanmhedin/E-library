@@ -7,6 +7,7 @@ use App\Filament\Resources\TeacherResearchResource\RelationManagers;
 use App\Models\Research;
 use App\Models\TeacherResearch;
 use App\Models\User;
+use Filament\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
@@ -14,6 +15,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\IconSize;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -137,12 +139,17 @@ public static function canAccess(): bool
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\ViewAction::make()->button(),
+                Tables\Actions\EditAction::make()->button()
+                    ->disabled(fn(Research $record) => $record->status != "under_evaluate")
+                ,
+                Tables\Actions\Action::make("files.download")
+                    ->icon('heroicon-o-folder-arrow-down')
+                    ->url(fn(Research $record) => route("files.download", $record))
+                    ->button()
+                    ->iconSize('lg')
+                    ->color("info")
+                    ->disabled(fn(Research $record) => $record->status == "progress")
             ]);
     }
 

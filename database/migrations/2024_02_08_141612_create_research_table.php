@@ -24,6 +24,7 @@ return new class extends Migration
 
 //          AFTER SENDING THE RESEARCH
             $table->integer("marks")->nullable();
+            $table->float("impact_factor")->nullable();
             $table->string("comments")->nullable();
             $table->dateTime("prepared_at")->nullable();
             $table->dateTime("administer_answered_at")->nullable();

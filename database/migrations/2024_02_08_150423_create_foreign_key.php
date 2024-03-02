@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('role_id')->constrained('roles');
             $table->foreignId('subject_id')->nullable()->constrained('subjects');
             $table->foreignId('department_id')->nullable()->constrained('departments');
-            $table->foreignId('collage_id')->nullable()->constrained('colleges');
+            $table->foreignId('college_id')->nullable()->constrained('colleges');
         });
 
         Schema::table('departments', function (Blueprint $table) {
@@ -24,7 +24,7 @@ return new class extends Migration
 
         Schema::table('subjects', function (Blueprint $table) {
             $table->foreignId('department_id')->constrained('departments');
-            $table->foreignId('collage_id')->constrained('collages');
+            $table->foreignId('college_id')->constrained('colleges');
         });
 
         Schema::table('research', function (Blueprint $table) {
