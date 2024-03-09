@@ -111,6 +111,7 @@ class MyResearchResource extends Resource
                 ->label("Upload")
                     ->disabled(fn(Research $record) => $record->status != "progress"),
                 ])
+            ->recordUrl(null)
             ->bulkActions([
             ]);
     }

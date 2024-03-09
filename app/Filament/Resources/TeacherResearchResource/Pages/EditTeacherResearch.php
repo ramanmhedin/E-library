@@ -9,7 +9,7 @@ use Filament\Resources\Pages\EditRecord;
 class EditTeacherResearch extends EditRecord
 {
     protected static string $resource = TeacherResearchResource::class;
-
+protected static ?string $title="review research";
     protected function getHeaderActions(): array
     {
         return [

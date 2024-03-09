@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FileController;
+use App\Livewire\PublishedResearch;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,5 +20,10 @@ use Illuminate\Support\Facades\Route;
 //});
 Route::middleware(["auth"])->group(function () {
     Route::get("files/download/{research}", [FileController::class, "download"])->name("files.download");
+
+
 });
+
+    Route::get('/home', PublishedResearch::class);
+    Route::get('/home/{record}', PublishedResearch::class);
 
