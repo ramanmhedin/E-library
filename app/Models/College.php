@@ -19,6 +19,10 @@ class College extends Model
     {
         return $this->hasMany(Subject::class, 'college_id');
     }
+    public function researches(): HasMany
+    {
+        return $this->hasMany(Research::class, 'college_id');
+    }
 
     public function users(): HasMany
     {

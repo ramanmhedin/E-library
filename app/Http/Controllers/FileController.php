@@ -11,20 +11,20 @@ use ZipArchive;
 class FileController extends Controller
 {
     //
-    public function downloadold(Request $request, Research $research)
-    {
-        $files = $research->files; // Assuming this gets the file details
-
-        if ($files->isNotEmpty()) {
-            // Assuming there's only one file, you might need to adjust if multiple files are associated
-            $file = $files->first();
-
-            $filePath = storage_path('app/public/' . $file->path); // Adjust the path as needed
-            return response()->download($filePath, $file->original_name);
-        } else {
-            return response()->json(['error' => 'File not found'], 404);
-        }
-    }
+//    public function downloadold(Request $request, Research $research)
+//    {
+//        $files = $research->files; // Assuming this gets the file details
+//
+//        if ($files->isNotEmpty()) {
+//            // Assuming there's only one file, you might need to adjust if multiple files are associated
+//            $file = $files->first();
+//
+//            $filePath = storage_path('app/public/' . $file->path); // Adjust the path as needed
+//            return response()->download($filePath, $file->original_name);
+//        } else {
+//            return response()->json(['error' => 'File not found'], 404);
+//        }
+//    }
     public function download(Request $request, Research $research)
     {
         $files = $research->files; // Assuming this gets the file details

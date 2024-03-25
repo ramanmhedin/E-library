@@ -17,6 +17,7 @@ use Filament\Tables;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -116,22 +117,63 @@ class SubjectResource extends Resource
             ])
             ->filters([
 
-                SelectFilter::make('college_id')
-                    ->relationship("college","name")
-                    ->searchable(),
+                Filter::make('filter')->form([
+                    Select::make('college_id')
+                        ->label("college")
+                        ->options(College::query()->pluck("name", "id"))
+                        ->native(false)
+                        ->reactive(),
 
-                SelectFilter::make('department_id')
-                    ->options(function ($livewire) {
-                        return Department::query()->get()->pluck("name", "id");
-                    }),
+                    Select::make('department_id')
+                        ->label("department")
+                        ->options(function (Get $get) {
+                            if (!empty($get("college_id"))) {
+                                return Department::query()->where("college_id", $get("college_id"))->pluck("name", "id");
+                            }
+                            return Department::query()->pluck("name", "id");
+                        })
+                        ->native(false)
+                        ->reactive(),
 
-                SelectFilter::make('academic_degree')
-                    ->options([
-                        'diploma'=>'diploma',
-                        'bachelor'=>'bachelor',
-                        'master'=>'master',
-                        'doctoral'=>'doctoral',
+                    Select::make('academic_degree')
+                        ->options([
+                            'diploma'=>'diploma',
+                            'bachelor'=>'bachelor',
+                            'master'=>'master',
+                            'doctoral'=>'doctoral',
                         ]),
+
+                ])->query(function (Builder $query, array $data): Builder {
+                    return $query
+                        ->when(
+                            $data['college_id'],
+                            fn(Builder $query, $date): Builder => $query->where('college_id', $date),
+                        )
+                        ->when(
+                            $data['academic_degree'],
+                            fn(Builder $query, $date): Builder => $query->where('academic_degree', $date),
+                        )
+                        ->when(
+                            $data['department_id'],
+                            function (Builder $query, $departmentId) {
+                                // This assumes there's a 'subject' relation on Research that links to a 'department'
+                                return $query->where('department_id', $departmentId);
+                            }
+                        );
+
+                })->indicateUsing(function (array $data) {
+                    $indicators = [];
+
+                    if (isset($data['college_id']) && $college = College::find($data['college_id'])) {
+                        $indicators['College'] = $college->name;
+                    }
+
+                    if (isset($data['department_id']) && $department = Department::find($data['department_id'])) {
+                        $indicators['Department'] = $department->name;
+                    }
+
+                    return $indicators;
+                }),
 
             ])
             ->actions([

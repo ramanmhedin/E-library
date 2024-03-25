@@ -7,6 +7,7 @@ use App\Models\Department;
 use App\Models\Research;
 use App\Models\Subject;
 use App\Models\User;
+use Filament\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
@@ -32,7 +33,9 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\HtmlString;
 use Illuminate\View\View;
 use Livewire\Component;
 use function PHPUnit\Framework\isNull;
@@ -78,10 +81,12 @@ class PublishedResearch extends Component implements HasTable, HasForms
     public function table(Table $table): Table
     {
         return $table
-            ->query(Research::query())
+            ->configure()
+            ->query(Research::query()->where('status', 'publish'))
+            ->contentGrid([])
             ->columns([
                 Grid::make()
-                    ->columns(1)
+                    ->columns(2)
                     ->schema([
                         Panel::make([
                             Split::make([
@@ -92,18 +97,19 @@ class PublishedResearch extends Component implements HasTable, HasForms
                                     ->searchable()
                                     ->sortable(),
                             ])
-                        ])->collapsed(false)
-                        ,
+
+                        ])->columnSpan(2),
+                        TextColumn::make("description")
+                            ->columnSpan(2),
 
                         TextColumn::make('student.name')
-                            ->color(Color::Amber)
-                            ->prefix("student : ")
+                            ->prefix(fn() => new HtmlString('<b class="text-lg bg-amber-5" style="color: rgb(245,158,11) !important;" href="/terms" >Student : </b>'))
                             ->size(TextColumn\TextColumnSize::Medium)
                             ->weight(FontWeight::Bold)
                             ->searchable()
                             ->sortable(),
                         TextColumn::make('subject.name')
-                            ->prefix("subject : ")
+                            ->prefix(fn() => new HtmlString('<b class="text-lg bg-amber-5" style="color: rgb(245,158,11) !important;" href="/terms" >Subject : </b>'))
                             ->size(TextColumn\TextColumnSize::Medium)
                             ->weight(FontWeight::Bold)
                             ->searchable()
@@ -120,16 +126,21 @@ class PublishedResearch extends Component implements HasTable, HasForms
 
 
                         TextColumn::make('marks')
+                            ->prefix(fn() => new HtmlString('<b class="text-lg bg-amber-5" style="color: rgb(245,158,11) !important;" href="/terms" >marks : </b>'))
+                            ->size(TextColumn\TextColumnSize::Medium)
+                            ->weight(FontWeight::Bold)
                             ->searchable()
                             ->sortable(),
                     ]),
 
 
-            ])->filters([
+            ])
+            ->filters([
                 Filter::make('filter')->form([
                     Select::make('college_id')
                         ->label("college")
                         ->options(College::query()->pluck("name", "id"))
+                        ->native()
                         ->reactive(),
 
                     Select::make('department_id')
@@ -140,6 +151,8 @@ class PublishedResearch extends Component implements HasTable, HasForms
                             }
                             return Department::query()->pluck("name", "id");
                         })
+                        ->native()
+                        ->reactive(),
                 ])->query(function (Builder $query, array $data): Builder {
                     return $query
                         ->when(
@@ -181,6 +194,7 @@ class PublishedResearch extends Component implements HasTable, HasForms
             ->actions(
                 [
                     ViewAction::make()->model(Research::class)
+                        ->button()
                         ->form([
                             Group::make([
                                 Section::make("Research information")
@@ -299,7 +313,14 @@ class PublishedResearch extends Component implements HasTable, HasForms
                                     ])->columns(2)
 
                             ])->columnSpan(2),
-                        ])
+                        ]),
+
+                    \Filament\Tables\Actions\Action::make("files.download")
+                        ->url(fn(Research $record) => route("files.download", $record))
+                        ->button()
+                        ->size("lg")
+                        ->color("info")
+                        ->disabled(fn(Research $record) => $record->status == "progress")
                 ]
             );
 
