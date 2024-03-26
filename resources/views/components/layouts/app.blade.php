@@ -18,6 +18,8 @@
         @filamentStyles
         @vite('resources/css/app.css')
     </head>
+
+    <body class="antialiased bg-black min-h-screen">
     <nav class="bg-gray-900 shadow">
         <div class="container mx-auto px-4">
             <div class="flex justify-between h-16 items-center">
@@ -39,43 +41,45 @@
             </div>
         </div>
     </nav>
-    <body class="antialiased">
-        {{ $slot }}
+      <main class="mb-40">
+          {{ $slot }}
+      </main>
 
         @livewire('notifications')
 
         @filamentScripts
         @vite('resources/js/app.js')
-    </body>
-    <footer id="footer" class="bg-gray-900 text-gray-100 py-6">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-4 gap-5  ">
-                <!-- Company Information -->
-                <div class="text-center md:text-left">
-                    <h3 class="text-lg font-semibold text-amber-500 mb-2"> Information</h3>
-                    <p>&copy; 2024 Final Project</p>
-                    <p>Salahadin University, Engineering College, Software Department</p>
-                    <p>Street Karkuk, Erbil, Kurdistan Iraq</p>
-                </div>
+        <footer id="footer" class="bg-gray-900 text-gray-100 py-6 mt-1">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-4 gap-5  ">
+                    <!-- Company Information -->
+                    <div class="text-center md:text-left">
+                        <h3 class="text-lg font-semibold text-amber-500 mb-2"> Information</h3>
+                        <p>&copy; 2024 Final Project</p>
+                        <p>Salahadin University, Engineering College, Software Department</p>
+                        <p>Street Karkuk, Erbil, Kurdistan Iraq</p>
+                    </div>
 
-                <!-- Creator Information -->
-                <div class="text-center md:text-left">
-                    <h3 class="text-lg font-semibold mb-2 text-amber-500">Created by</h3>
-                    <p>Abdurahman Yassin</p>
-                    <p>Mabast Abdulqadir</p>
-                </div>
-                <div class="text-center md:text-left">
-                    <h3 class="text-lg font-semibold mb-2 text-amber-500">Supervise by</h3>
-                    <p>MS.Nawroze</p>
-                </div>
+                    <!-- Creator Information -->
+                    <div class="text-center md:text-left">
+                        <h3 class="text-lg font-semibold mb-2 text-amber-500">Created by</h3>
+                        <p>Abdurahman Yassin</p>
+                        <p>Mabast Abdulqadir</p>
+                    </div>
+                    <div class="text-center md:text-left">
+                        <h3 class="text-lg font-semibold mb-2 text-amber-500">Supervise by</h3>
+                        <p>MS.Nawroze</p>
+                    </div>
 
-                <!-- Contact Information -->
-                <div class="text-center md:text-left">
-                    <h3 class="text-lg font-semibold mb-2 text-amber-500">Contact Us</h3>
-                    <p>Email: info@finalproject.com</p>
-                    <p>Phone: +1234567890</p>
+                    <!-- Contact Information -->
+                    <div class="text-center md:text-left">
+                        <h3 class="text-lg font-semibold mb-2 text-amber-500">Contact Us</h3>
+                        <p>Email: info@finalproject.com</p>
+                        <p>Phone: +1234567890</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </footer>
+        </footer>
+    </body>
+
 </html>
