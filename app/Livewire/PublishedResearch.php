@@ -50,34 +50,6 @@ class PublishedResearch extends Component implements HasTable, HasForms
         return view('livewire.published-research');
     }
 
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                TextInput::make("title")
-                    ->string()
-                    ->disabledOn("edit")
-                    ->required(),
-                TextInput::make("description")
-                    ->string()
-                    ->disabledOn("edit")
-                    ->required(),
-                TextInput::make("abstract")
-                    ->string()
-                    ->required(),
-                FileUpload::make('research.files')
-                    ->label('Research Documentation')
-                    ->multiple()
-                    ->preserveFilenames()
-                    ->openable()
-                    ->downloadable()
-                    ->hiddenOn("view")
-                    ->required()
-                    ->disk('public'),
-            ]);
-    }
-
-
     public function table(Table $table): Table
     {
         return $table
@@ -193,7 +165,7 @@ class PublishedResearch extends Component implements HasTable, HasForms
             ])
             ->actions(
                 [
-                    ViewAction::make()->model(Research::class)
+                    ViewAction::make("view")->model(Research::class)
                         ->button()
                         ->form([
                             Group::make([
@@ -207,14 +179,7 @@ class PublishedResearch extends Component implements HasTable, HasForms
                                             ->required(),
                                         TextInput::make("abstract")
                                             ->string(),
-                                        FileUpload::make('research.files')
-                                            ->label('Research Documentation')
-                                            ->multiple()
-                                            ->preserveFilenames()
-                                            ->openable()
-                                            ->downloadable()
-                                            ->hiddenOn("view")
-                                            ->disk('public'),// Ensure you're specifying the correct disk
+
 
                                     ])->columns(2),
                                 Section::make("Student")
@@ -327,11 +292,5 @@ class PublishedResearch extends Component implements HasTable, HasForms
 
     }
 
-    public static function getPages(): array
-    {
-        return [
 
-            'view' => route('/home/{record}'),
-        ];
-    }
 }
