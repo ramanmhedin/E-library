@@ -21,8 +21,11 @@ use Illuminate\Support\Facades\Route;
 
 
     Route::get("files/download/{research}", [FileController::class, "download"])->name("files.download");
-    Route::get('/home', PublishedResearch::class);
+    Route::get('/published-research', PublishedResearch::class)->name("research.published");
 Route::get('/about', function () {
     return view('about');
+})->name("about");
+Route::get('/home', function () {
+    return view('home');
 });//    Route::get('/home/{record}', PublishedResearch::class);
 

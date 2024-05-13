@@ -13,6 +13,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\TextColumn\TextColumnSize;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -94,6 +95,7 @@ class MyResearchResource extends Resource
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('student.name')
+                    ->label("researcher")
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('subject.name')

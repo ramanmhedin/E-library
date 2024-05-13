@@ -17,6 +17,7 @@ use Filament\Tables;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\TextColumn\TextColumnSize;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -29,6 +30,7 @@ use function PHPUnit\Framework\isNull;
 class SubjectResource extends Resource
 {
     protected static ?string $model = Subject::class;
+
 
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
     protected static ?string $navigationGroup="Academic";
@@ -107,13 +109,17 @@ class SubjectResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
+
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('academic_degree')
+
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('department.name'),
-                TextColumn::make('college.name'),
+                TextColumn::make('department.name')
+                ,
+                TextColumn::make('college.name')
+                ,
             ])
             ->filters([
 

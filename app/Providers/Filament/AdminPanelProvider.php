@@ -54,7 +54,7 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->profile()
-            ->sidebarCollapsibleOnDesktop()
+            ->sidebarFullyCollapsibleOnDesktop()
             ->sidebarWidth("13rem")
             ->maxContentWidth(MaxWidth::Full)
             ;
