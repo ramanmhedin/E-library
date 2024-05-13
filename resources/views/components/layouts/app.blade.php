@@ -19,7 +19,7 @@
         @vite('resources/css/app.css')
     </head>
 
-    <body class="antialiased bg-black min-h-screen">
+    <body class="antialiased bg-gray-600 min-h-screen">
     <nav class="bg-gray-900 shadow">
         <div class="container mx-auto px-4">
             <div class="flex justify-between h-16 items-center">
@@ -31,7 +31,8 @@
                 <!-- Navigation Links -->
                 <div class="flex justify-center">
                     <ul class="flex space-x-4">
-                        <li><a href="/home" class="text-amber-400 hover:bg-gray-800 py-2 px-4 rounded">Home</a></li>
+                        <li><a href="/home" class="text-gray-100 hover:bg-gray-800 py-2 px-4 rounded">Home</a></li>
+                        <li><a href="/published-research" class="text-amber-400 hover:bg-gray-800 py-2 px-4 rounded">Research</a></li>
                         <li><a href="/about" class="text-gray-100 hover:bg-gray-800 py-2 px-4 rounded">About</a></li>
                         <li><a href="#footer" class="text-gray-100 hover:bg-gray-800 py-2 px-4 rounded">Contact</a></li>
                         <li><a href="/login" class="text-gray-100 hover:bg-gray-800 py-2 px-4 rounded ">Login</a></li>
@@ -41,7 +42,8 @@
             </div>
         </div>
     </nav>
-      <main class="mb-40">
+      <main class="flex-1 bg-gray-600">
+
           {{ $slot }}
       </main>
 
@@ -49,7 +51,7 @@
 
         @filamentScripts
         @vite('resources/js/app.js')
-        <footer id="footer" class="bg-gray-900 text-gray-100 py-6 mt-1">
+        <footer id="footer" class="bg-gray-900 text-gray-100 py-6 ">
             <div class="container mx-auto px-4">
                 <div class="grid grid-cols-4 gap-5  ">
                     <!-- Company Information -->

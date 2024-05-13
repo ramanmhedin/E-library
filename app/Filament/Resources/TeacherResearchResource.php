@@ -19,6 +19,7 @@ use Filament\Resources\Resource;
 use Filament\Support\Enums\IconSize;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\TextColumn\TextColumnSize;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -66,7 +67,7 @@ class TeacherResearchResource extends Resource
                             ->hiddenOn("create"),
 
                         Forms\Components\Select::make("student_id")
-                            ->label("student")
+                            ->label("researcher")
                             ->options(function ($get, $livewire) {
                                 $query = User::query()
                                     ->where('role_id', 2)
@@ -81,7 +82,7 @@ class TeacherResearchResource extends Resource
                             ->required()
                             ->native(false),
                         Forms\Components\Select::make("administer_id")
-                            ->label("Administrator")
+                            ->label("Per Editor")
                             ->options(fn(Get $get): Collection => User::query()
                                 ->where("role_id", "=", 4)
                                 ->where("college_id", auth()->user()->college_id)
@@ -130,11 +131,14 @@ class TeacherResearchResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')
+
                     ->sortable(),
                 TextColumn::make('title')
+
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('status')
+
                     ->alignCenter()
                     ->badge()
                     ->color(fn(string $state): string => match ($state) {
@@ -146,15 +150,20 @@ class TeacherResearchResource extends Resource
                     })
                     ->sortable(),
                 TextColumn::make('marks')
+
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('student.name')
+
+                    ->label("researcher")
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('subject.name')
+
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('college.name')
+
                     ->searchable()
                     ->sortable(),
             ])

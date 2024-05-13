@@ -20,7 +20,7 @@ class FileController extends Controller
             $zipFileName = "download.zip";
             $zipFilePath = public_path($zipFileName);
 
-            if ($zip->open($zipFileName, ZipArchive::CREATE )) {
+            if ($zip->open($zipFileName, ZipArchive::CREATE)) {
                 foreach ($files as $file) {
 
                     $filePath = storage_path('app/public/' . $file->path);
@@ -31,7 +31,7 @@ class FileController extends Controller
                 $zip->close();
 
                 // Download the zip file
-              return response()->download($zipFileName,$research->student->name.".zip")->deleteFileAfterSend();
+                return response()->download($zipFileName, $research->student->name . ".zip")->deleteFileAfterSend();
                 // Delete the zip file after sending\
             } else {
                 return response()->json(['error' => 'Failed to create zip archive'], 500);

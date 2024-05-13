@@ -53,57 +53,34 @@ class PublishedResearch extends Component implements HasTable, HasForms
     public function table(Table $table): Table
     {
         return $table
-            ->configure()
             ->query(Research::query()->where('status', 'publish'))
-            ->contentGrid([])
             ->columns([
-                Grid::make()
-                    ->columns(2)
-                    ->schema([
-                        Panel::make([
-                            Split::make([
-                                TextColumn::make('title')
-                                    ->size(TextColumn\TextColumnSize::Large)
-                                    ->weight(FontWeight::ExtraBold)
-                                    ->fontFamily(FontFamily::Serif)
-                                    ->searchable()
-                                    ->sortable(),
-                            ])
 
-                        ])->columnSpan(2),
+                TextColumn::make('title')
+                    ->searchable()
+                    ->sortable(),
                         TextColumn::make("description")
                             ->columnSpan(2),
 
                         TextColumn::make('student.name')
-                            ->prefix(fn() => new HtmlString('<b class="text-lg bg-amber-5" style="color: rgb(245,158,11) !important;" href="/terms" >Student : </b>'))
-                            ->size(TextColumn\TextColumnSize::Medium)
-                            ->weight(FontWeight::Bold)
                             ->searchable()
                             ->sortable(),
                         TextColumn::make('subject.name')
-                            ->prefix(fn() => new HtmlString('<b class="text-lg bg-amber-5" style="color: rgb(245,158,11) !important;" href="/terms" >Subject : </b>'))
-                            ->size(TextColumn\TextColumnSize::Medium)
-                            ->weight(FontWeight::Bold)
                             ->searchable()
                             ->sortable(),
 
                         TextColumn::make('college.name')
                             ->searchable()
                             ->sortable()
-                            ->size(TextColumn\TextColumnSize::Medium)
-                            ->weight(FontWeight::Bold)
                             ->formatStateUsing(function ($state, Research $research) {
                                 return $research->college->name . " / " . $research->subject->department->name;
                             }),
 
 
                         TextColumn::make('marks')
-                            ->prefix(fn() => new HtmlString('<b class="text-lg bg-amber-5" style="color: rgb(245,158,11) !important;" href="/terms" >marks : </b>'))
-                            ->size(TextColumn\TextColumnSize::Medium)
-                            ->weight(FontWeight::Bold)
                             ->searchable()
                             ->sortable(),
-                    ]),
+
 
 
             ])
@@ -156,13 +133,6 @@ class PublishedResearch extends Component implements HasTable, HasForms
                 }),
             ])
             ->recordTitle("Research")
-            ->contentGrid([
-                'sm' => 1,
-                'md' => 2,
-                'lg' => 2,
-                'xl' => 2,
-
-            ])
             ->actions(
                 [
                     ViewAction::make("view")->model(Research::class)
